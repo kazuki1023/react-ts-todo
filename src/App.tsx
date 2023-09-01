@@ -64,8 +64,10 @@ function App() {
         <h2>todo リスト with TypeScript</h2>
         <form onSubmit={(e) => handleSubmit(e)}>
           <input type="text"
-            onChange={(e) => handleChange(e)} className='inputText' />
-          <input type="submit" value="作成" className='submitButton' />
+            onChange={(e) => handleChange(e)} className='inputText' 
+            value={inputValue}
+            />
+          <input type="submit" className='submitButton' value="作成"/>
         </form>
         <ul className='todoList'>
           {todos.map((todo) => (
