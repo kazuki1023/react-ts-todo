@@ -14,6 +14,7 @@ function App() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setInputValue(e.target.value);
   }
 
@@ -24,17 +25,22 @@ function App() {
       id: todos.length,
       checked: false,
     };
+    console.log(todos);
     setTodos([newTodo, ...todos]);
     setInputValue("");
+    console.log(todos);
   }
 
   const handleEdit = (id: number, inputValue: string) => {
-    const newTodos = todos.map((todo) => {
+    const deepCopy = todos.map((todo) => ({ ...todo }));
+
+    const newTodos = deepCopy.map((todo) => {
       if (todo.id === id) {
         todo.inputValue = inputValue;
       }
       return todo;
     });
+    console.log(newTodos);
     setTodos(newTodos);
   };
 
@@ -47,23 +53,28 @@ function App() {
     });
     setTodos(newTodos);
   }
+
+  const handleDelete = (id: number) => {
+    const newTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(newTodos);
+  }
   return (
     <div className="App">
       <div>
         <h2>todo リスト with TypeScript</h2>
         <form onSubmit={(e) => handleSubmit(e)}>
-          <input type="text" 
-          onChange={(e) => handleChange(e)} className='inputText'/>
-          <input type="submit" value="作成" className='submitButton'/>
+          <input type="text"
+            onChange={(e) => handleChange(e)} className='inputText' />
+          <input type="submit" value="作成" className='submitButton' />
         </form>
         <ul className='todoList'>
           {todos.map((todo) => (
-            <li>
-              <input type="text" 
-          onChange={(e) => handleEdit(todo.id, e.target.value)} className='inputText' value={todo.inputValue} disabled={todo.checked}/>
+            <li key={todo.id}>
+              <input type="text"
+                onChange={(e) => handleEdit(todo.id, e.target.value)} className='inputText' value={todo.inputValue} disabled={todo.checked} />
               <input type="checkbox"
-          onChange={(e) => handleChecked(todo.id, todo.checked)} className='inputText'  />
-          <button onClick={}></button>
+                onChange={(e) => handleChecked(todo.id, todo.checked)} className='inputText' />
+              <button onClick={() => handleDelete(todo.id)}>消</button>
             </li>
           ))}
         </ul>
