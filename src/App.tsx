@@ -25,6 +25,7 @@ function App() {
       id: todos.length,
       checked: false,
     };
+    // ここのsetTodosを挟むconsoleの値が変わらないのなぜ？
     console.log(todos);
     setTodos([newTodo, ...todos]);
     setInputValue("");
@@ -40,7 +41,6 @@ function App() {
       }
       return todo;
     });
-    console.log(newTodos);
     setTodos(newTodos);
   };
 
